@@ -16,7 +16,7 @@ function Router() {
   }, [userData]);
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
     </Routes>

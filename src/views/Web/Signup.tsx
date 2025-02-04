@@ -63,13 +63,13 @@ export default function Login() {
 
 	  return (
 			<div className="flex justify-center items-center w-full h-full fixed top-0 z-10 phone:bg-slate-100 md:bg-black">
-					<img src={SNEAKY_text} alt="" className="w-3/12 m-16 phone:hidden xl:flex" />
+					<img src="https://st3.depositphotos.com/1411595/34413/i/450/depositphotos_344138160-stock-photo-young-woman-in-a-black.jpg" alt="" className="w-3/12 m-16 phone:hidden xl:flex" />
 					<div className="flex absolute h-full w-full"></div>
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-loginFormWidth bg-slate-100 rounded-2xl z-10">
 							<div className="flex flex-col p-8">
 									<div className="flex flex-col items-center ">
 											<h2 className="flex text-3xl my-4 text-grey_font">Sign up</h2>
-											<span className="text-main-pink font-light">Break free, Taste the forbidden!</span>
+											<span className="text-main-pink font-light">Global Fun , Model Register</span>
 									</div>
 									<Input label={'Full Name'}  bind={{ ...register("fullName") }} error={errors.fullName} />
 									<Input label={'Email'} bind={{ ...register("email") }} error={errors.email}/>
