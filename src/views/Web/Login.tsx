@@ -17,6 +17,8 @@ const schema = z.object({
 export default function Login() {
   const dispatch = useDispatch()
   const [loginUser, { loading }] = useMutation(LOGIN);
+  // const [loginUser, { loading }] = useMutation(LOGIN,{context:{apiName:"sfu"}});
+
   const {
     register,
     handleSubmit,

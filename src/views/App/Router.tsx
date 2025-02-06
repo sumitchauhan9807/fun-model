@@ -1,6 +1,6 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Dashboard from "src/views/App/Dashboard";
-import Produce from "src/views/App/Produce";
+import Produce from "src/views/App/Produce.jsx";
 
 import Login from "src/views/Web/Login";
 import SignUp from "src/views/Web/Signup";
