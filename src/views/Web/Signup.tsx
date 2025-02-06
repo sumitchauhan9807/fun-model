@@ -77,7 +77,7 @@ export default function Login() {
 									<Input label={'Password'} type="password" bind={{ ...register("password") }} error={errors.password}/>
 									<br/>
 									<ReCAPTCHA
-                    sitekey="6LeX__cpAAAAAHccZS7Qdd6nl6vY1MaIvIbmNnG4"
+                    sitekey="6LdUh84qAAAAAOMonNfuDyd8uRGE3qDXdpxuL0V0"
 										ref={captchaRef}
                     onChange={captchaSuccess}
 										onExpired={() => alert('captcha expired')}
