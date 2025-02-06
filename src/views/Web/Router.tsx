@@ -11,7 +11,7 @@ function Router() {
   const navigate = useNavigate()
   useEffect(() => {
     if (userData.token) {
-      navigate("/discover");
+      navigate("/dashboard");
     }
   }, [userData]);
   return (

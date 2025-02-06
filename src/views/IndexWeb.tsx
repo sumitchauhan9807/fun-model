@@ -20,7 +20,7 @@ function IndexWeb() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {app && <AppRouter />}
       {web && <WebRouter />}
     </>
