@@ -37,7 +37,7 @@ export default function Login() {
           }
         }
       })
-      dispatch(setUserData(data.login))
+      dispatch(setUserData(data.modelLogin))
     } catch (e: any) {
       setError("root", {
         message: e.message,

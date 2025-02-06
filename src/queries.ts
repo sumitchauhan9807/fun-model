@@ -7,8 +7,8 @@ export const HELLO = gql`
 `;
 
 export const LOGIN = gql`
-  mutation Login($data: LoginInput!) {
-    login(data: $data) {
+  mutation modelLogin($data: LoginInput!) {
+    modelLogin(data: $data) {
       user {
         id
         email
@@ -21,8 +21,8 @@ export const LOGIN = gql`
 `;
 
 export const REGISTER = gql`
-  mutation Register($data: RegisterInput!) {
-    register(data: $data) {
+  mutation modelRegister($data: RegisterInput!) {
+    modelRegister(data: $data) {
       user {
         id
         email

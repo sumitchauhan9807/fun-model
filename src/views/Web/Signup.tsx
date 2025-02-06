@@ -51,7 +51,7 @@ export default function Login() {
 					}
 				}
 			})
-			dispatch(setUserData(data.register))
+			dispatch(setUserData(data.modelRegister))
 		}catch(e:any) {
 			captchaRef.current.reset();
 			setError("root", {
