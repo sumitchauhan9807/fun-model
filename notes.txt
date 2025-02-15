@@ -1,0 +1,45 @@
+dob
+country
+height(cm)
+weight(kg)
+eye color
+hair color
+profession
+sex (male,female,trans,lesbian,gay)
+telephone
+location
+address
+  street
+  zip code
+
+
+Documents
+  Passport (front , back)
+  selfie with id
+  proof of addess
+  business certification (small business)
+
+
+porotype 1 -> automatic payments are not availabe
+
+=======================================================================================================
+model panel 
+  -> register
+  -> add Documents
+  -> come online
+
+===========================================================================================================
+
+front end
+  -> user login/register
+  -> payments
+  -> buy tokens
+  -> token integration
+  -> real time chat 
+  -> security (important)
+
+=====================================================================================================
+  admin panel
+  -> see all models
+  -> see all models Documents
+  -> veify model

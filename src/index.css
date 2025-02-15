@@ -4,6 +4,7 @@
 
 body{
     background: #FFFFFE;
+    overflow-x: hidden;
 }
 .paraLineHight{
     line-height: 2.6rem !important;

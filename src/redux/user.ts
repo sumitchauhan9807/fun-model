@@ -5,6 +5,8 @@ type user =  {
   username :string
   name:string
   email:string
+  avatar:string
+  profileSetupStep:number
 } | null
 
 const initialState = {
@@ -20,6 +22,9 @@ const userSlice = createSlice({
       state.user = action.payload.user
       state.token = action.payload.token
     },
+    setUserInfo:(state,action) => {
+      state.user = action.payload
+    },
     logOut:(state) => { 
       state.user = null
       state.token = null
@@ -27,6 +32,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserData , logOut } = userSlice.actions;
+export const { setUserData , logOut ,setUserInfo} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -6,8 +6,6 @@ import { LOGIN } from 'src/queries'
 import { useDispatch } from "react-redux";
 import { setUserData } from 'src/redux/user'
 import { Link } from "react-router-dom";
-import SNEAKY_text from 'src/assets/Images/SNEAKY_text.png'
-import BG_mirror from 'src/assets/Images/BG_mirror.jpg'
 import { useMutation } from "@apollo/client";
 const schema = z.object({
   usernameOrEmail: z.string().min(4, { message: "Username Or Email must have at least 4 characters" }),
