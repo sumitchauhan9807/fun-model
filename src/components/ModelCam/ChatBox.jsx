@@ -7,7 +7,7 @@ import {NewGoal,PubicMessage,PublicTip ,GoalStatus ,CreateAccount ,ModelMessage}
 function ChatBox({username,playing}) {
   const userData = useSelector((state) => state.user);
   let publicId = 12;
-  const [ subscription ,unSubscribe ] = useSubscribe(username)
+  const [ subscription ,unSubscribe ] = useSubscribe(userData.user.username)
   const [ publish ] = usePubish(username)
   const [message,setMessage] = useState("")
   const [chatMessages,setChatMessages] = useState([])
