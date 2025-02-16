@@ -1,0 +1,3 @@
+:root{--primary:#a2262e;--primary-light:#fa5365;--primary-dark:#912229;--primary-border:#a2262e;--primary-modal:#a2262e;--primary-gradient:#a2262e;--header-logo-aspect-ratio:5.000;--footer-logo-aspect-ratio:5.000}.adblocker-notification{display:flex;position:relative;width:100vw;padding:8px 16px;background:#ffe180;color:#434343;z-index:10002;justify-content:center}
+
+.disable-transition *{transition:none!important}

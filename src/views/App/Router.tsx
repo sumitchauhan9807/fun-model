@@ -2,6 +2,7 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Dashboard from "src/views/App/Dashboard";
 import Produce from "src/views/App/Produce.jsx";
 import Profile from "src/views/App/Profile";
+import Producer2 from 'src/views/App/Producer2'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "src/views/Web/Login";
@@ -11,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import Sidebar from "src/views/App/components/Sidebar";
 import NavBar from "src/views/App/components/NavBar";
+import Footer from "src/components/Footer";
 
 function Router() {
 	const userData = useSelector((state: any) => state.user);
@@ -31,9 +33,12 @@ function Router() {
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/produce" element={<Produce />} />
 					<Route path="/profile" element={<Profile />} />
+					<Route path="/cam" element={<Producer2 />} />
+
 
 					{/* <Route path="/chats" element={<Chats />} /> */}
 				</Routes>
+				<Footer/>
 			</main>
 		</div>
 	);
