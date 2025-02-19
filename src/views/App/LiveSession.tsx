@@ -68,7 +68,7 @@ const ResumeLiveSession = ({ endSession ,currentSession ,setSessionResolved }: {
 	return (
 		<center className="mt-12">
 			<div className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-				<p className="mb-3 text-large font-normal text-gray-700 dark:text-gray-400"> A Live Session with title <b>{currentSession.title}</b> is in Progress !!.</p>
+				<p className="mb-3 text-large font-normal text-gray-700 dark:text-gray-400"> A Live Session with title <b>{currentSession?.title}</b> is in Progress !!.</p>
 				<a
 					onClick={(e) => {e.preventDefault() ; setSessionResolved(true)}}
 					href="#"
