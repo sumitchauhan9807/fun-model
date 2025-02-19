@@ -4,12 +4,13 @@ import { GET_MODEL_ACTIVE_SESSION, CREATE_SESSION, END_LIVE_SESSION } from "src/
 import { useDispatch ,useSelector } from "react-redux";
 import { setLiveSession } from "src/redux/user";
 import { useEffect, useState } from "react";
-import { BasicInput } from "src/components/FormItems";
+import { PageSkeleton } from "src/components/Skeletons";
+
 import { toast } from "react-toastify";
 function LiveSession() {
 	const dispatch = useDispatch();
 	const currentSession = useSelector((state:any) => state.user.liveSession);
-	let { data, refetch } = useQuery(GET_MODEL_ACTIVE_SESSION);
+	let { data, refetch , loading:Qloading } = useQuery(GET_MODEL_ACTIVE_SESSION);
 	const [createSession] = useMutation(CREATE_SESSION);
 	const [endLiveSession] = useMutation(END_LIVE_SESSION);
 
@@ -59,6 +60,7 @@ function LiveSession() {
 			alert(e);
 		}
 	};
+	if (loading || Qloading) return <PageSkeleton />;
 	if (!data?.getModelActiveSession) return <CreateLiveSession create={create} />;
 	if(sessionResolved) return <ModelCam/>
 	return <ResumeLiveSession endSession={endSession} currentSession={currentSession} setSessionResolved={setSessionResolved} />;
