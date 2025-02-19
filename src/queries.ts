@@ -58,8 +58,8 @@ export const UPDATE_AVATAR = gql`
 `;
 
 export const UPDATE_DOCUMENTS = gql`
-	mutation updateDocument($filename: String!,$docType:UploadDocsInputType!) {
-		updateDocument(filename: $filename,docType:$docType){
+	mutation updateDocument($filename: String!, $docType: UploadDocsInputType!) {
+		updateDocument(filename: $filename, docType: $docType) {
 			id
 			email
 			username
@@ -71,8 +71,6 @@ export const UPDATE_DOCUMENTS = gql`
 		}
 	}
 `;
-
-
 
 export const ADD_BASIC_INFO = gql`
 	mutation addBasicInfo($data: AddBasicInfo!) {
@@ -100,7 +98,7 @@ export const MODEL_DATA = gql`
 			profileSetupStep
 			profileComplete
 			documentsVerified
-			basic_info{
+			basic_info {
 				id
 			}
 			address {
@@ -123,10 +121,32 @@ export const GET_CLOUD_PUT_URL = gql`
 	}
 `;
 
+export const GET_MODEL_ACTIVE_SESSION = gql`
+	query getModelActiveSession {
+		getModelActiveSession {
+			id
+			title
+			netTokens
+			status
+		}
+	}
+`;
+
+export const CREATE_SESSION = gql`
+	mutation createSession($title:String!) {
+		createSession(title:$title) {
+			id
+		}
+	}
+`;
+export const END_LIVE_SESSION = gql`
+	mutation endLiveSession($id:Float!) {
+		endLiveSession(id:$id)
+	}
+`;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export const GET_RTP_CAPABILITIES = gql`
 	mutation getRtpCapabilities {
@@ -146,21 +166,20 @@ export const CREATE_PRODUCER_TRANSPORT = gql`
 `;
 
 export const CONNECT_PRODUCER_TRANSPORT = gql`
-mutation ConnectProducerTransport($transportId: String!, $dtlsParameters: String!) {
-  connectProducerTransport(transportId: $transportId, dtlsParameters: $dtlsParameters)
-} `;
-
-
+	mutation ConnectProducerTransport($transportId: String!, $dtlsParameters: String!) {
+		connectProducerTransport(transportId: $transportId, dtlsParameters: $dtlsParameters)
+	}
+`;
 
 export const START_PRODUCING = gql`
-mutation startProducing($transportId: String!, $rtpParameters: String!, $kind: String!) {
-  startProducing(transportId: $transportId, rtpParameters: $rtpParameters, kind: $kind)
-}`;
-
+	mutation startProducing($transportId: String!, $rtpParameters: String!, $kind: String!) {
+		startProducing(transportId: $transportId, rtpParameters: $rtpParameters, kind: $kind)
+	}
+`;
 
 export const CREATE_CONSUMER_TRANSPORT = gql`
-	mutation createConsumerTransport($clientId: String!,$modelId:String!) {
-		createConsumerTransport(clientId: $clientId,modelId:$modelId) {
+	mutation createConsumerTransport($clientId: String!, $modelId: String!) {
+		createConsumerTransport(clientId: $clientId, modelId: $modelId) {
 			id
 			iceParameters
 			iceCandidates
@@ -169,10 +188,9 @@ export const CREATE_CONSUMER_TRANSPORT = gql`
 	}
 `;
 
-
 export const CONSUME_MEDIA = gql`
-	mutation consumeMedia($rtpCapabilities: String!,$clientId:String!,$modelId:String!,$kind:String!) {
-		consumeMedia(rtpCapabilities: $rtpCapabilities,clientId:$clientId,modelId:$modelId,kind:$kind) {
+	mutation consumeMedia($rtpCapabilities: String!, $clientId: String!, $modelId: String!, $kind: String!) {
+		consumeMedia(rtpCapabilities: $rtpCapabilities, clientId: $clientId, modelId: $modelId, kind: $kind) {
 			producerId
 			id
 			kind
@@ -182,13 +200,13 @@ export const CONSUME_MEDIA = gql`
 `;
 
 export const CONNECT_CONSUMER_TRANSPORT = gql`
-	mutation connectConsumerTransport($clientId: String!,$modelId:String!,$dtlsParameters:String!) {
-		connectConsumerTransport(clientId: $clientId,modelId:$modelId,dtlsParameters:$dtlsParameters)
+	mutation connectConsumerTransport($clientId: String!, $modelId: String!, $dtlsParameters: String!) {
+		connectConsumerTransport(clientId: $clientId, modelId: $modelId, dtlsParameters: $dtlsParameters)
 	}
 `;
 
 export const UNPAUSE_CONSUMER = gql`
-	mutation unpauseConsumer($clientId: String!,$modelId:String!,$kind:String!) {
-		unpauseConsumer(clientId: $clientId,modelId:$modelId,kind:$kind)
+	mutation unpauseConsumer($clientId: String!, $modelId: String!, $kind: String!) {
+		unpauseConsumer(clientId: $clientId, modelId: $modelId, kind: $kind)
 	}
 `;

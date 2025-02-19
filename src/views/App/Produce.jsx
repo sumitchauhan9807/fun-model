@@ -1,28 +1,40 @@
 import { useMutation } from "@apollo/client";
 import { GET_RTP_CAPABILITIES, CREATE_PRODUCER_TRANSPORT, CONNECT_PRODUCER_TRANSPORT, START_PRODUCING } from "src/sfuQueries";
 import { Device } from "mediasoup-client";
-import { useRef } from "react";
-import { useDispatch ,useSelector } from "react-redux";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const device = new Device();
 let localStream = null;
 let producerTransport = null;
 let producer = null;
-let audioProducer = null
+let audioProducer = null;
 
 function Producer() {
 	let localVideoRef = useRef(null);
-	const [getRtpCap, { loading }] = useMutation(GET_RTP_CAPABILITIES,{context:{apiName:"sfu"}});
-	const [createProducerTransport, { loadingCPT }] = useMutation(CREATE_PRODUCER_TRANSPORT,{context:{apiName:"sfu"}});
-	const [connectProducerTransport, { loadingCNPT }] = useMutation(CONNECT_PRODUCER_TRANSPORT,{context:{apiName:"sfu"}});
-	const [startProducing, { loadingsp }] = useMutation(START_PRODUCING,{context:{apiName:"sfu"}});
-	const userData = useSelector((state) => state.user);
-	const runTest = async () => {
-		let { data } = await getRtpCap();
-		let routerRtpCapabilities = JSON.parse(data.getRtpCapabilities);
-		await device.load({ routerRtpCapabilities });
+	const [getRtpCap, { loadingRTP }] = useMutation(GET_RTP_CAPABILITIES, { context: { apiName: "sfu" } });
+	const [createProducerTransport, { loadingCPT }] = useMutation(CREATE_PRODUCER_TRANSPORT, { context: { apiName: "sfu" } });
+	const [connectProducerTransport, { loadingCNPT }] = useMutation(CONNECT_PRODUCER_TRANSPORT, { context: { apiName: "sfu" } });
+	const [startProducing, { loadingsp }] = useMutation(START_PRODUCING, { context: { apiName: "sfu" } });
 
-		createProducer();
+	const [loading, setLoading] = useState(false);
+	const userData = useSelector((state) => state.user);
+
+	const loadDevice = async (routerRtpCapabilities) => {
+		if (device.loaded) return;
+		await device.load({ routerRtpCapabilities });
+	};
+	const runTest = async () => {
+		try {
+			setLoading(true);
+			let { data } = await getRtpCap();
+			let routerRtpCapabilities = JSON.parse(data.getRtpCapabilities);
+			await loadDevice(routerRtpCapabilities);
+			await createProducer();
+			await publish();
+			setLoading(false);
+		} catch (e) {}
+			setLoading(false);
 		// console.log(routerRtpCapabilities)
 		// console.log(device.loaded)
 	};
@@ -77,7 +89,7 @@ function Producer() {
 			console.log("Transport produce event has fired!");
 			console.log(parameters);
 			const { kind, rtpParameters } = parameters;
-			console.log(kind,"kindkindkindkindkind")
+			console.log(kind, "kindkindkindkindkind");
 			let { data } = await startProducing({
 				variables: {
 					rtpParameters: JSON.stringify(rtpParameters),
@@ -86,7 +98,7 @@ function Producer() {
 				},
 			});
 			console.log(data.startProducing);
-			callback(data.startProducing)
+			callback(data.startProducing);
 			// const resp = await socket.emitWithAck('start-producing',{ kind, rtpParameters })
 			// if(resp === "error"){
 			// 		//somethign went wrong when the server tried to produce
@@ -102,11 +114,12 @@ function Producer() {
 		// console.log("Publish feed!")
 		const videoTrack = localStream.getVideoTracks()[0];
 		const audioTrack = localStream.getAudioTracks()[0];
-		const videoProducer =  await producerTransport.produce({ track:videoTrack });
-		console.log(videoProducer,"VIDEO PRODUCED")
-		 const audioProducer =  await producerTransport.produce({track:audioTrack})
-		console.log("AUDIO PRODUCED")
-		alert("You are online!!")
+		const videoProducer = await producerTransport.produce({ track: videoTrack });
+		console.log(videoProducer, "VIDEO PRODUCED");
+		const audioProducer = await producerTransport.produce({ track: audioTrack });
+		console.log("AUDIO PRODUCED");
+		return true;
+		// alert("You are online!!")
 		// console.log(track,"track")
 	};
 
@@ -120,9 +133,9 @@ function Producer() {
 				},
 				audio: true,
 			});
-      if(!localVideoRef.current) {
-        return 
-       }
+			if (!localVideoRef.current) {
+				return;
+			}
 			localVideoRef.current.srcObject = localStream;
 			localVideoRef.current.play();
 		} catch (err) {
@@ -137,12 +150,12 @@ function Producer() {
 				</center>
 			</div>
 			<div className="flex justify-center items-center mt-24">
-				<button className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={runTest}>
-					Open Camera
+				<button disabled={loading} className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={runTest}>
+					START BROADCASTING
 				</button>
-				<button className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={publish}>
+				{/* <button className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" onClick={publish}>
 					Get Online
-				</button>
+				</button> */}
 			</div>
 		</>
 	);

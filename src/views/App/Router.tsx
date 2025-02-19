@@ -2,7 +2,7 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Dashboard from "src/views/App/Dashboard";
 import Produce from "src/views/App/Produce.jsx";
 import Profile from "src/views/App/Profile";
-import Producer2 from 'src/views/App/Producer2'
+import LiveSession from 'src/views/App/LiveSession'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "src/views/Web/Login";
@@ -31,9 +31,9 @@ function Router() {
 				<NavBar />
 				<Routes>
 					<Route path="/dashboard" element={<Dashboard />} />
-					<Route path="/produce" element={<Produce />} />
+					<Route path="/produce" element={<LiveSession />} />
 					<Route path="/profile" element={<Profile />} />
-					<Route path="/cam" element={<Producer2 />} />
+					<Route path="/cam" element={<LiveSession />} />
 
 
 					{/* <Route path="/chats" element={<Chats />} /> */}

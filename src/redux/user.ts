@@ -9,9 +9,17 @@ type user =  {
   profileSetupStep:number
 } | null
 
+type LiveSession =  {
+  id:number
+  title:string
+  status:string
+  netTokens:number
+} | null
+
 const initialState = {
   user: <user> null ,
-  token: <string | null> null
+  token: <string | null> null,
+  liveSession: <LiveSession> null
 };
 
 const userSlice = createSlice({
@@ -25,13 +33,17 @@ const userSlice = createSlice({
     setUserInfo:(state,action) => {
       state.user = action.payload
     },
+    setLiveSession:(state,action) => {
+      state.liveSession = action.payload
+    },
     logOut:(state) => { 
       state.user = null
       state.token = null
+      state.liveSession = null
     }
   },
 });
 
-export const { setUserData , logOut ,setUserInfo} = userSlice.actions;
+export const { setUserData , logOut ,setUserInfo, setLiveSession} = userSlice.actions;
 
 export default userSlice.reducer;

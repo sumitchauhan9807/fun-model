@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import { ApolloProvider } from "@apollo/client";
 import App from "src/App";
 import "./index.css";
-// import "src/assets/css/primary.css";
+// import "src/assets/css/bootstrap-dark.css";
 // import "src/assets/css/bootstrap.css";
 // import "src/assets/css/bootstrap-mobile1.css";
 import ApolloClient from "src/apollo.js";

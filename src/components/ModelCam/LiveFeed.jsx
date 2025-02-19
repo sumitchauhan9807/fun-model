@@ -37,7 +37,7 @@ useEffect(()=>{
                           <div className="player-controls-user__live-badge player-live-badge">LIVE</div>
                           <div className="player-viewers-count"><span className> 58 viewers</span></div>
                         </div>
-                        <h2 className="media-after-s-hidden view-cam-info-goal__title view-cam-info-topic view-cam-info-topic__in-player"><span>. </span><span>​</span><span>Insta: </span><span>​</span><span>June</span><span>​</span><span>695_ ♥️ </span><span>​</span><span>Tg: </span><span>​</span><span>Jjune</span><span>​</span><span>695</span><span>​</span></h2>
+                       
                       </div>
                       <div className="player-controls-user__buttons">
                         <div className="player-controls-user__left-buttons">
@@ -85,7 +85,7 @@ useEffect(()=>{
                 <div className="player-controls-layers__layer player-controls-layers__layer--alternate-controls player-controls-layers__layer--hidden">
                   <div className="player-controls-user__overlay-top-btn" />
                 </div>
-                1
+                
               </div>
             </div>
           </div>
