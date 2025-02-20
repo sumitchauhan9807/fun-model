@@ -19,19 +19,24 @@ function Index() {
 	const [connectProducerTransport, { loadingCNPT }] = useMutation(CONNECT_PRODUCER_TRANSPORT, { context: { apiName: "sfu" } });
 	const [startProducing, { loadingsp }] = useMutation(START_PRODUCING, { context: { apiName: "sfu" } });
 	const [isOnline, setIsOnline] = useState(false);
+	const [processStatus, setProcessStatus] = useState({
+		message: "Please Wait while we join you !!",
+		error: null,
+	});
 
 	const [loading, setLoading] = useState(false);
 
 	const userData = useSelector((state) => state.user);
+	const currentSession = useSelector((state) => state.user.liveSession);
 
 	const loadDevice = async (routerRtpCapabilities) => {
 		if (device.loaded) return;
 		await device.load({ routerRtpCapabilities });
 	};
 
-	useEffect(()=>{
-		runTest()
-	},[])
+	useEffect(() => {
+		runTest();
+	}, []);
 
 	const runTest = async () => {
 		try {
@@ -39,10 +44,27 @@ function Index() {
 			let { data } = await getRtpCap();
 			let routerRtpCapabilities = JSON.parse(data.getRtpCapabilities);
 			await loadDevice(routerRtpCapabilities);
+			setProcessStatus({
+				message: "Device Loaded Successfully !!",
+				error: null,
+			});
 			await createProducer();
+			setProcessStatus({
+				message: "Broadcast Created  !!",
+				error: null,
+			});
 			await publish();
+			setProcessStatus({
+				message: "Let's go  !!",
+				error: null,
+			});
+			setIsOnline(true);
 			setLoading(false);
 		} catch (e) {
+			setProcessStatus({
+				message: "",
+				error: e.message,
+			});
 			setLoading(false);
 		}
 		// console.log(routerRtpCapabilities)
@@ -54,6 +76,7 @@ function Index() {
 		let { data } = await createProducerTransport({
 			variables: {
 				modelId: userData.user.username,
+				sessionId: currentSession.id,
 			},
 		});
 		let { id, iceParameters, iceCandidates, dtlsParameters } = data.createProducerTransport;
@@ -128,7 +151,7 @@ function Index() {
 		console.log(videoProducer, "VIDEO PRODUCED");
 		const audioProducer = await producerTransport.produce({ track: audioTrack });
 		console.log("AUDIO PRODUCED");
-		setIsOnline(true);
+		return;
 		// alert("You are online!!");
 		// console.log(track,"track")
 	};
@@ -156,7 +179,7 @@ function Index() {
 	// return <ProduceOld localVideoRef={localVideoRef} runTest={runTest} publish={publish}/>
 
 	if (!isOnline) {
-		return <StartBroadcast localVideoRef={localVideoRef} runTest={runTest} publish={publish} />;
+		return <StartBroadcast processStatus={processStatus} />;
 	}
 
 	return (
@@ -192,12 +215,24 @@ function Index() {
 	);
 }
 
-const StartBroadcast = ({ runTest }) => {
+const StartBroadcast = ({ processStatus }) => {
 	return (
 		<>
-			<div style={{color:'black'}} className="flex justify-center items-center mt-24">
-				Please Wait while we join you !!
-			</div>
+			{processStatus.message.length && (
+				<div style={{ color: "black" }} className="flex justify-center items-center mt-24">
+					{processStatus.message}
+				</div>
+			)}
+			{processStatus.error && (
+				<>
+					<div style={{ color: "red" }} className="flex justify-center items-center mt-24">
+						{processStatus.error}
+					</div>
+					<div style={{ color: "red" }} className="flex justify-center items-center mt-4">
+						<button onClick={()=>{window.location.reload()}} className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Start a new Session</button>
+					</div>
+				</>
+			)}
 		</>
 	);
 };

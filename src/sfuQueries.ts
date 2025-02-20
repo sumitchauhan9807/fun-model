@@ -13,8 +13,8 @@ export const GET_RTP_CAPABILITIES = gql`
 `;
 
 export const CREATE_PRODUCER_TRANSPORT = gql`
-	mutation createProducerTransport($modelId: String!) {
-		createProducerTransport(modelId: $modelId) {
+	mutation createProducerTransport($modelId: String!,$sessionId:String!) {
+		createProducerTransport(modelId: $modelId,sessionId:$sessionId) {
 			id
 			iceParameters
 			iceCandidates
