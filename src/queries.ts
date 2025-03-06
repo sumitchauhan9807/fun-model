@@ -139,6 +139,30 @@ export const CREATE_SESSION = gql`
 		}
 	}
 `;
+
+export const ADD_GOAL = gql`
+	mutation addGoal($title:String!,$tokenValue:Float!,$sessionId:Float!) {
+		addGoal(title:$title,tokenValue:$tokenValue,sessionId:$sessionId) {
+			id
+		}
+	}
+`;
+
+export const GET_SESSION_GOAL = gql`
+	query getSessionGoal($sessionId:Float!) {
+		getSessionGoal(sessionId:$sessionId) {
+			id
+			title
+			isAchived
+			tokensAchived
+			tokenValue
+		}
+	}
+`;
+
+
+
+
 export const END_LIVE_SESSION = gql`
 	mutation endLiveSession($id:Float!) {
 		endLiveSession(id:$id)

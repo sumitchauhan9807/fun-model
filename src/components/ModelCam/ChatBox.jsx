@@ -37,7 +37,8 @@ function ChatBox({username,playing}) {
     publish({
       publicId:publicId,
       message:message,
-      userType:'model'
+      userType:'model',
+      type:"MESSAGE",
     })
     console.log(chatMessages)
   }

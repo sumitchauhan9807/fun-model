@@ -29,21 +29,25 @@ function Index() {
 	const userData = useSelector((state) => state.user);
 	const currentSession = useSelector((state) => state.user.liveSession);
 
-	const loadDevice = async (routerRtpCapabilities) => {
+	const loadDevice = async () => {
 		if (device.loaded) return;
+		let { data } = await getRtpCap();
+		let routerRtpCapabilities = JSON.parse(data.getRtpCapabilities);
 		await device.load({ routerRtpCapabilities });
 	};
 
 	useEffect(() => {
 		runTest();
+		return () =>{
+			producerTransport.close()
+		}
 	}, []);
 
 	const runTest = async () => {
 		try {
 			setLoading(true);
-			let { data } = await getRtpCap();
-			let routerRtpCapabilities = JSON.parse(data.getRtpCapabilities);
-			await loadDevice(routerRtpCapabilities);
+
+			await loadDevice();
 			setProcessStatus({
 				message: "Device Loaded Successfully !!",
 				error: null,
@@ -229,7 +233,14 @@ const StartBroadcast = ({ processStatus }) => {
 						{processStatus.error}
 					</div>
 					<div style={{ color: "red" }} className="flex justify-center items-center mt-4">
-						<button onClick={()=>{window.location.reload()}} className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Start a new Session</button>
+						<button
+							onClick={() => {
+								window.location.reload();
+							}}
+							className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+						>
+							Start a new Session
+						</button>
 					</div>
 				</>
 			)}
