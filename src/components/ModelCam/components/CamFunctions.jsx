@@ -57,7 +57,7 @@ function CamFunctions() {
 }
 
 const GoalBar = ({sessionGoal}) => {
-  if(!sessionGoal?.data?.getSessionGoal.title) return 
+  if(!sessionGoal?.data?.getSessionGoal?.title) return 
   let goal = sessionGoal.data.getSessionGoal
   console.log(goal,"goalgoal")
   let percentGoalComplete = (goal.tokensAchived / goal.tokenValue) * 100
