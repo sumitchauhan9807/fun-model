@@ -5,6 +5,7 @@ import { GET_RTP_CAPABILITIES, CREATE_PRODUCER_TRANSPORT, CONNECT_PRODUCER_TRANS
 import { Device } from "mediasoup-client";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {useSubscribe , usePubish} from 'src/Hooks/PubNub'
 
 const device = new Device();
 let localStream = null;
@@ -13,6 +14,7 @@ let producer = null;
 let audioProducer = null;
 
 function Index() {
+	const userData = useSelector((state) => state.user);
 	let localVideoRef = useRef(null);
 	const [getRtpCap, { RTPloading }] = useMutation(GET_RTP_CAPABILITIES, { context: { apiName: "sfu" } });
 	const [createProducerTransport, { loadingCPT }] = useMutation(CREATE_PRODUCER_TRANSPORT, { context: { apiName: "sfu" } });
@@ -23,10 +25,28 @@ function Index() {
 		message: "Please Wait while we join you !!",
 		error: null,
 	});
+	const [ subscription ,unSubscribe ] = useSubscribe(userData.user.username)
+  const [ publish ] = usePubish(userData.user.username)
+  const [chatMessages,setChatMessages] = useState([])
+	useEffect(()=>{
+		subscription.onMessage = (messageEvent) => {
+			console.log("Message event: ", messageEvent);
+			if(messageEvent.message.type == 'MESSAGE') {
+				setChatMessages((prev)=>{
+					return [...prev,messageEvent.message]
+				})
+			}
+      
+      // setMessage("")
+      return () => {
+        alert("unsubb")
+        unSubscribe()
+      }
+		};
+  },[])
 
 	const [loading, setLoading] = useState(false);
 
-	const userData = useSelector((state) => state.user);
 	const currentSession = useSelector((state) => state.user.liveSession);
 
 	const loadDevice = async () => {
@@ -57,7 +77,7 @@ function Index() {
 				message: "Broadcast Created  !!",
 				error: null,
 			});
-			await publish();
+			await publishFeed();
 			setProcessStatus({
 				message: "Let's go  !!",
 				error: null,
@@ -147,7 +167,7 @@ function Index() {
 			// // console.log(resp)
 		});
 	};
-	const publish = async () => {
+	const publishFeed = async () => {
 		// console.log("Publish feed!")
 		const videoTrack = localStream.getVideoTracks()[0];
 		const audioTrack = localStream.getAudioTracks()[0];
@@ -201,7 +221,7 @@ function Index() {
 												<div className="page">
 													<div className="ViewCamWrapper#p6 ViewCamWrapper__vertical#AV view-cam-page-main widescreen-container">
 														<LiveFeed videoRef={localVideoRef} isOnline={isOnline} localStream={localStream} />
-														<ChatBox username={userData.user.username} playing={false} />
+														<ChatBox username={userData.user.username} playing={false} chatMessages={chatMessages} publish={publish} />
 													</div>
 												</div>
 												<div></div>

@@ -1,29 +1,14 @@
 import { useEffect, useState } from "react";
-import {useSubscribe , usePubish} from 'src/Hooks/PubNub'
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
 import {NewGoal,PubicMessage,PublicTip ,GoalStatus ,CreateAccount ,ModelMessage} from 'src/components/ModelCam/components/MessageItems'
 
-function ChatBox({username,playing}) {
+function ChatBox({username,playing,chatMessages,publish}) {
   const userData = useSelector((state) => state.user);
   let publicId = 12;
-  const [ subscription ,unSubscribe ] = useSubscribe(username)
-  const [ publish ] = usePubish(username)
+  
   const [message,setMessage] = useState("")
-  const [chatMessages,setChatMessages] = useState([])
-	useEffect(()=>{
-		subscription.onMessage = (messageEvent) => {
-			console.log("Message event: ", messageEvent);
-      setChatMessages((prev)=>{
-        return [...prev,messageEvent.message]
-      })
-      setMessage("")
-      return () => {
-        alert("unsubb")
-        unSubscribe()
-      }
-		};
-  },[])
+	
 
   const location = useLocation();
 
@@ -40,6 +25,7 @@ function ChatBox({username,playing}) {
       userType:'model',
       type:"MESSAGE",
     })
+    setMessage("")
     console.log(chatMessages)
   }
   const handleKeyDown = (e) => {
